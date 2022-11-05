@@ -1,5 +1,5 @@
 export const register = async (email, password) => {
-  const res = await fetch('https://auth.nomoreparties.co/signup', {
+  const res = await fetch('http://api.melnikovst.mesto.nomoredomains.icu/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export const register = async (email, password) => {
 };
 
 export const login = async (email, password) => {
-  const res = await fetch('https://auth.nomoreparties.co/signin', {
+  const res = await fetch('http://api.melnikovst.mesto.nomoredomains.icu/signin', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const login = async (email, password) => {
 };
 
 export const goMain = async (jwt) => {
-  const res = await fetch('https://auth.nomoreparties.co/users/me', {
+  const res = await fetch('http://api.melnikovst.mesto.nomoredomains.icu/users/me', {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${jwt}`,
