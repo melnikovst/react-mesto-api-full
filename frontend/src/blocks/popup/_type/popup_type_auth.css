@@ -1,0 +1,10 @@
+.popup_type_auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0 77px 0;
+    visibility: visible;
+    opacity: 1;
+    position: relative;
+    width: 100%;
+}

@@ -1,0 +1,19 @@
+.burger {
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 9px;
+  margin-right: 24px;
+  cursor: pointer;
+  transition: all 0.6s ease;
+}
+
+.burger:hover {
+  opacity: 0.6;
+}
+
+@media screen and (min-width: 768px) {
+  .burger {
+    display: none;
+  }
+}
