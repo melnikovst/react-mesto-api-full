@@ -10,9 +10,3 @@ const ProtectedRoute = ({ Component, ...props }) => {
 };
 
 export default ProtectedRoute;
-
-const name = 'Alesha';
-let age = 50;
-age = String(age);
-
-console.log(typeof age);

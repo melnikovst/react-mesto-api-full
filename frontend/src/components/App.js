@@ -212,7 +212,7 @@ function App() {
       setIsOk(true);
       setIsTooltipOpen(true);
     } catch (error) {
-      console.log(error);
+      console.log(error.name);
       setIsTooltipOpen(true);
       setIsOk(false);
     }
@@ -288,12 +288,12 @@ function App() {
                 />
               }
             />
-            <Route
+            {/*             <Route
               path="*"
               element={
                 isLogged ? <Navigate to="/" /> : <Navigate to="/sign-in" />
               }
-            />
+            /> */}
           </Routes>
           <Footer />
           <InfoTooltip
