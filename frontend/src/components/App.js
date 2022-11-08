@@ -70,7 +70,7 @@ function App() {
   };
 
   const handleCardLike = async (card) => {
-    const isLiked = card.likes.some((i) => i._id === _id);
+    const isLiked = card.likes.some((i) => i === _id);
     try {
       const resChangeLikeStatus = await server.changeLikeCardStatus(
         card,
@@ -100,22 +100,6 @@ function App() {
       }, 500);
     }
   };
-
-  const fetchData = async () => {
-    if (isLogged) {
-      const [profileObject, cards] = await Promise.all([
-        server.loadProfile(),
-        server.loadCards(),
-      ]);
-      console.log(profileObject);
-      setCards(cards);
-      setCurrentUser(profileObject);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [isLogged]);
 
   const closeAllPopups = () => {
     setIsImageOpen(false);
@@ -173,12 +157,10 @@ function App() {
   };
 
   const checkToken = async () => {
-    const token = localStorage.getItem('token');
-    if (token) {
       try {
-        const res = await goMain(token);
-        if (res.data) {
-          setProfileP(res.data.email);
+        const res = await goMain();
+        if (res) {
+          setProfileP(res.email);
           setIsLogged(true);
           goForward();
         }
@@ -187,7 +169,6 @@ function App() {
         goOut();
         setIsLogged(false);
       }
-    }
   };
 
   const handleLogin = async (email, password) => {
@@ -215,6 +196,7 @@ function App() {
       console.log(error.name);
       setIsTooltipOpen(true);
       setIsOk(false);
+      setIsLogged(false);
     }
   };
 
@@ -222,22 +204,36 @@ function App() {
     checkToken();
   }, []);
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      goForward();
-    }
-  }, []);
-
-  const onHeaderBtnClick = () => {
+  const onHeaderBtnClick = async () => {
     if (pathname === '/') {
-      localStorage.removeItem('token');
-      goOut();
-      setIsLogged(false);
-      setProfileP('');
-      setHeaderBtn('Войти');
+      try {
+        await server.signout();
+        goOut();
+        setIsLogged(false);
+        setProfileP('');
+        setHeaderBtn('Войти');
+      } catch (error) {
+        console.log(error)
+      }
     }
     return;
   };
+
+  const fetchData = async () => {
+    if (isLogged) {
+      const [profileObject, cards] = await Promise.all([
+        server.loadProfile(),
+        server.loadCards(),
+      ]);
+      console.log(profileObject);
+      setCards(cards);
+      setCurrentUser(profileObject);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [isLogged]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -288,12 +284,12 @@ function App() {
                 />
               }
             />
-            {/*             <Route
+            <Route
               path="*"
               element={
                 isLogged ? <Navigate to="/" /> : <Navigate to="/sign-in" />
               }
-            /> */}
+            />
           </Routes>
           <Footer />
           <InfoTooltip

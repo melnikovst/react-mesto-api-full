@@ -7,6 +7,7 @@ class Api {
   loadCards() {
     this._cards = fetch(`${this._url}/cards`, {
       headers: this._headers,
+      credentials: 'include',
     }).then(this._handleResponse);
     return this._cards;
   }
@@ -14,6 +15,7 @@ class Api {
   loadProfile() {
     this._profileInfo = fetch(`${this._url}/users/me`, {
       headers: this._headers,
+      credentials: 'include'
     }).then(this._handleResponse);
     return this._profileInfo;
   }
@@ -21,12 +23,14 @@ class Api {
   getProfileId() {
     return (this.test = fetch(`${this._url}/users/me`, {
       headers: this._headers,
+      credentials: 'include',
     }).then(this._handleResponse));
   }
 
   _handleLike(string, obj) {
     this._like = fetch(`${this._url}/cards/${obj._id}/likes`, {
       method: string,
+      credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
     return this._like;
@@ -42,6 +46,7 @@ class Api {
   deleteLike(obj) {
     this._deleteLike = fetch(`${this._url}/cards/${obj._id}/likes`, {
       method: 'DELETE',
+      credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
     return this._deleteLike;
@@ -55,6 +60,7 @@ class Api {
         name: obj.name,
         about: obj.about,
       }),
+      credentials: 'include',
     }).then(this._handleResponse);
     return this._changedProfile;
   }
@@ -67,6 +73,7 @@ class Api {
         name: title,
         link: link,
       }),
+      credentials: 'include',
     }).then(this._handleResponse);
     return this._addedCard;
   }
@@ -75,6 +82,7 @@ class Api {
     this._deletedCard = fetch(`${this._url}/cards/${obj._id}`, {
       method: 'DELETE',
       headers: this._headers,
+      credentials: 'include',
     }).then(this._handleResponse);
     return this._deletedCard;
   }
@@ -86,8 +94,16 @@ class Api {
       body: JSON.stringify({
         avatar: obj.avatar,
       }),
+      credentials: 'include',
     }).then(this._handleResponse);
     return this._newAvatar;
+  }
+
+  signout() {
+    return fetch(`${this._url}/signout`, {
+      headers: this._headers,
+      credentials: 'include',
+    }).then(this._handleResponse);
   }
 
   _handleResponse(res) {
@@ -96,12 +112,12 @@ class Api {
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   }
+
 }
 
 export const server = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-47',
+  url: 'https://api.melnikovst.mesto.nomoredomains.icu',
   headers: {
-    authorization: '12b2cd52-5967-45db-990f-351ecb43e60e',
     'Content-Type': 'application/json',
   },
 });

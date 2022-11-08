@@ -33,6 +33,7 @@ const Login = ({ handleClick, span }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.email || ''}
+            required
             />
             <span className={`form__invalid-message email-error ${isValid ? '' : 'form__invalid-message_active'}`}>{errors.email}</span>
             <input
@@ -42,11 +43,14 @@ const Login = ({ handleClick, span }) => {
             className="form__input form__input_type_auth"
             placeholder="Пароль"
             onChange={handleChange}
+            onBlur={handleBlur}
             value={values.password || ''}
+            required
+            minLength="6"
             />
             <span className={`form__invalid-message password-error ${isValid ? '' : 'form__invalid-message_active'}`}>{errors.password}</span>
           </fieldset>
-          <button className="form__button form__button_type_auth" onClick={handleSubmit}>
+          <button className={`form__button form__button_type_auth ${isValid === undefined || isValid ? '' : 'form__button_disabled'}`} onClick={handleSubmit}>
             Войти
           </button>
         </form>

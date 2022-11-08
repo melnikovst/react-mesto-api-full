@@ -19,8 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "react-scripts build && scp -r ./build/* melnikovst@158.160.20.12:/home/melnikovst/react-mesto-auth"
   },
   "eslintConfig": {
     "extends": [

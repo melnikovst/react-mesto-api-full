@@ -9,6 +9,8 @@ const Register = ({ handleClick }) => {
     regPassword: ''
   }
 
+
+
   const {values, handleChange, errors, isValid, setValues, handleBlur} = useFormAndValidation(onRegister)
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const Register = ({ handleClick }) => {
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.regEmail || ''}
+            required
           />
             <span className={`form__invalid-message reg-email-error ${isValid ? '' : 'form__invalid-message_active'}`}>{errors.regEmail}</span>
             <input
@@ -45,10 +48,11 @@ const Register = ({ handleClick }) => {
             onBlur={handleBlur}
             value={values.regPassword || ''}
             minLength="6"
+            required
           />
             <span className={`form__invalid-message reg-password-error ${isValid ? '' : 'form__invalid-message_active'}`}>{errors.regPassword}</span>
           </fieldset>
-          <button className="form__button form__button_type_auth" onClick={handleSubmit}>
+          <button className={`form__button form__button_type_auth ${isValid === undefined || isValid ? '' : 'form__button_disabled'}`} onClick={handleSubmit}>
             Зарегестрироваться
           </button>
         </form>

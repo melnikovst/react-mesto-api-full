@@ -4,9 +4,11 @@ const hidden = {
 
 const Card = ({ card, onCardClick, user, onCardLike, openDeletingPopup }) => {
 
-  const isOwn = card.owner._id !== user._id;
-  
-  const isLiked = card.likes.some(i => i._id === user._id);
+  const isOwn = card.owner !== user._id;
+
+  const isLiked = card.likes.some(i => {
+    return i === user._id
+  });
 
   const likeBtnClasses = `card__button ${isLiked ? 'card__button_active' : ''}`
 
