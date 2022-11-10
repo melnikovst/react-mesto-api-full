@@ -159,7 +159,7 @@ function App() {
   const checkToken = async () => {
       try {
         const res = await goMain();
-        if (res) {
+        if (res.email) {
           setProfileP(res.email);
           setIsLogged(true);
           goForward();
