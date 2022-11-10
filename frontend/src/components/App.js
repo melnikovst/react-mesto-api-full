@@ -187,9 +187,7 @@ function App() {
   const handleRegister = async (email, password) => {
     try {
       await register(email, password);
-      setProfileP(email);
-      setIsLogged(true);
-      goForward();
+      goOut();
       setIsOk(true);
       setIsTooltipOpen(true);
     } catch (error) {
