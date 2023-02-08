@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useFormAndValidation from '../utils/useValidation'
 
-const Login = ({ handleClick, span }) => {
+const Login = ({ handleClick }) => {
   const onLogin = {
     email: '',
     password: '',

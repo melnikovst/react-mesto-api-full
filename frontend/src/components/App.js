@@ -6,7 +6,7 @@ import Popup from './Popup';
 import EditProfilePopup from './EditProfilePopup';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import { server } from '../utils/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import SubmitDeletingCard from './SubmitDeletingCard';
@@ -45,8 +45,8 @@ function App() {
   const [headerBtn, setHeaderBtn] = useState('');
   const [isLogged, setIsLogged] = useState(false);
   const history = useNavigate();
-  const goForward = () => history('/');
-  const goOut = () => history('/sign-in');
+  const goForward = useCallback(() => history('/'), [history]);
+  const goOut = useCallback(() => history('/sign-in'), [history]);
   const [profileP, setProfileP] = useState('');
 
   const openDeletingPopup = (card) => {
@@ -156,7 +156,7 @@ function App() {
     }
   };
 
-  const checkToken = async () => {
+  const checkToken = useCallback(async () => {
       try {
         const res = await goMain();
         if (res.email) {
@@ -169,7 +169,7 @@ function App() {
         goOut();
         setIsLogged(false);
       }
-  };
+  }, [goForward, goOut]);
 
   const handleLogin = async (email, password) => {
     try {
@@ -200,7 +200,7 @@ function App() {
 
   useEffect(() => {
     checkToken();
-  }, []);
+  }, [checkToken]);
 
   const onHeaderBtnClick = async () => {
     if (pathname === '/') {
@@ -217,7 +217,7 @@ function App() {
     return;
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (isLogged) {
       const [profileObject, cards] = await Promise.all([
         server.loadProfile(),
@@ -227,11 +227,11 @@ function App() {
       setCards(cards);
       setCurrentUser(profileObject);
     }
-  };
+  }, [isLogged]);
 
   useEffect(() => {
     fetchData();
-  }, [isLogged]);
+  }, [fetchData, isLogged]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

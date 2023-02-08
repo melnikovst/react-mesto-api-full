@@ -4,20 +4,20 @@ class Api {
     this._headers = headers;
   }
 
-  loadCards() {
-    this._cards = fetch(`${this._url}/cards`, {
+  async loadCards() {
+    const res = await fetch(`${this._url}/cards`, {
       headers: this._headers,
       credentials: 'include',
-    }).then(this._handleResponse);
-    return this._cards;
+    });
+    return this._handleResponse(res);
   }
 
-  loadProfile() {
-    this._profileInfo = fetch(`${this._url}/users/me`, {
+  async loadProfile() {
+    const res = await fetch(`${this._url}/users/me`, {
       headers: this._headers,
-      credentials: 'include'
-    }).then(this._handleResponse);
-    return this._profileInfo;
+      credentials: 'include',
+    });
+    return this._handleResponse(res);
   }
 
   getProfileId() {
@@ -99,11 +99,12 @@ class Api {
     return this._newAvatar;
   }
 
-  signout() {
-    return fetch(`${this._url}/signout`, {
+  async signout() {
+    const res = await fetch(`${this._url}/signout`, {
       headers: this._headers,
       credentials: 'include',
-    }).then(this._handleResponse);
+    });
+    return this._handleResponse(res);
   }
 
   _handleResponse(res) {
@@ -112,11 +113,10 @@ class Api {
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   }
-
 }
 
 export const server = new Api({
-  url: 'https://api.melnikovst.mesto.nomoredomains.icu',
+  url: 'http://api.melnikovst.pictures.nomoredomainsclub.ru',
   headers: {
     'Content-Type': 'application/json',
   },
